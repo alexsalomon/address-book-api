@@ -7,4 +7,10 @@ module.exports = {
     '@strv/javascript/environments/mocha/recommended',
     '@strv/javascript/coding-styles/recommended',
   ],
+  rules: {
+    "no-inline-comments": 0,
+
+    // No warnings for express error handler function
+    "no-unused-vars": ["error", { "argsIgnorePattern": "next" }]
+  },
 }

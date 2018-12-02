@@ -5,6 +5,7 @@ const helmet = require('helmet')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const morgan = require('morgan')
+const logger = require('../util/logger')
 const config = require('./settings')
 
 module.exports = app => {
@@ -16,5 +17,7 @@ module.exports = app => {
 
   if (config.env.isDev && !config.env.isTest) {
     app.use(morgan('dev'))
-  } 
+  } else if (config.env.isProd) {
+    app.use(morgan('combined', { stream: { write: message => logger.info(message.trim()) } }))
+  }
 }

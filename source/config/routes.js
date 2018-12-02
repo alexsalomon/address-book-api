@@ -3,6 +3,7 @@
 const HttpStatus = require('http-status')
 const ApiError = require('http-errors')
 const express = require('express')
+const logger = require('../util/logger')
 
 const router = new express.Router()
 
@@ -12,6 +13,11 @@ router.get('/', (req, res) => {
 
 router.all('*', (req, res, next) => {
   next(new ApiError.NotFound('Resource not found.'))
+})
+
+router.use(function logErrors(err, req, res, next) {
+  logger.error(err)
+  next(err)
 })
 
 router.use(function handleErrors(err, req, res, next) {

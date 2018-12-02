@@ -1,5 +1,6 @@
 'use strict'
 
+const path = require('path')
 const dotenv = require('dotenv')
 
 // Load variables from .env
@@ -32,15 +33,24 @@ const settings = {
     name: process.env.DB_NAME || 'restful-api-prod',
     debug: process.env.DB_DEBUG || 'false',
   },
+  logger: {
+    logsPath: path.join(__dirname, '../../logs/'),
+    sentry: {
+      dns: process.env.SENTRY_DNS,
+      level: process.env.SENTRY_LEVEL || 'error',
+    },
+  },
 }
 
 const devSettings = JSON.parse(JSON.stringify(settings))
 devSettings.db.name = process.env.DB_NAME || 'restful-api-dev'
 devSettings.db.debug = process.env.DB_DEBUG || 'true'
+devSettings.logger.sentry = {}
 
 const testSettings = JSON.parse(JSON.stringify(settings))
 testSettings.db.name = process.env.DB_NAME || 'restful-api-test'
 testSettings.db.debug = process.env.DB_DEBUG || 'true'
+devSettings.logger.sentry = {}
 
 let config = {}
 switch (settings.env.current) {
