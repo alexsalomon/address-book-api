@@ -4,9 +4,11 @@
   "description": "An address book backend API",
   "main": "server.js",
   "scripts": {
-    "start": "node ./server.js",
-    "dev": "NODE_ENV=development nodemon ./server.js",
-    "test": "npm run lint",
+    "start": "node ./source/server.js",
+    "dev": "NODE_ENV=development nodemon ./source/server.js",
+    "test": "npm run lint && npm run test-unit",
+    "test-watch": "npm run test-unit -- --watch",
+    "test-unit": "NODE_ENV=test mocha test/setup.spec.js source/**/*.spec.js  --exit",
     "lint": "eslint . --fix"
   },
   "repository": {
@@ -21,8 +23,11 @@
   "homepage": "https://github.com/alexsalomon/address-book-api#readme",
   "devDependencies": {
     "@strv/eslint-config-javascript": "^9.1.0",
+    "chai": "^4.2.0",
     "eslint": "^5.9.0",
-    "nodemon": "^1.18.7"
+    "mocha": "^5.2.0",
+    "nodemon": "^1.18.7",
+    "sinon": "^7.1.1"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
