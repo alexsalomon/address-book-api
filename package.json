@@ -1,0 +1,19 @@
+{
+  "name": "address-book-api",
+  "version": "1.0.0",
+  "description": "An address book backend API",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexsalomon/address-book-api.git"
+  },
+  "author": "Alex Salomon",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alexsalomon/address-book-api/issues"
+  },
+  "homepage": "https://github.com/alexsalomon/address-book-api#readme"
+}
