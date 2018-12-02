@@ -27,12 +27,14 @@
   "devDependencies": {
     "@strv/eslint-config-javascript": "^9.1.0",
     "chai": "^4.2.0",
+    "dirty-chai": "^2.0.1",
     "eslint": "^5.9.0",
     "mocha": "^5.2.0",
     "nodemon": "^1.18.7",
     "sinon": "^7.1.1"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
     "chalk": "^2.4.1",
     "compression": "^1.7.3",
@@ -44,6 +46,8 @@
     "http-status": "^1.3.1",
     "mongoose": "^5.3.14",
     "morgan": "^1.9.1",
+    "path": "^0.12.7",
+    "validator": "^10.9.0",
     "winston": "^3.1.0",
     "winston-sentry-raven-transport": "^1.0.2"
   }

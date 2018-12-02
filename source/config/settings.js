@@ -33,6 +33,10 @@ const settings = {
     name: process.env.DB_NAME || 'restful-api-prod',
     debug: process.env.DB_DEBUG || 'false',
   },
+  auth: {
+    saltRounds: parseInt(process.env.JWT_SALT_ROUNDS) || 10,
+    passwordMinLength: parseInt(process.env.PASSWORD_MIN_LENGTH) || 8,
+  },
   logger: {
     logsPath: path.join(__dirname, '../../logs/'),
     sentry: {
