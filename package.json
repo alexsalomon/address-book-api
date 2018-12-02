@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "An address book backend API",
   "main": "server.js",
+  "engines": {
+    "node": ">=10.0.0"
+  },
   "scripts": {
     "start": "node ./source/server.js",
     "dev": "NODE_ENV=development nodemon ./source/server.js",

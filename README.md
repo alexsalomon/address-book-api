@@ -12,7 +12,7 @@ Command             | Action                   |
 `npm run lint`      | Lint the code            |
 
 ## Set up
-* Install GIT, NodeJS, NPM and MongoDB (or Docker).
+* Install GIT, NodeJS 10+, NPM and MongoDB (or Docker).
 ```sh
 # Clone the repo and change directory
 $ git clone https://github.com/alexsalomon/address-book-api.git && cd address-book-api
