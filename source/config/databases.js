@@ -1,6 +1,5 @@
 'use strict'
 
-const fs = require('mz/fs')
 const mongoose = require('mongoose')
 const firebase = require('firebase-admin')
 const config = require('./settings')
@@ -27,16 +26,13 @@ function mongodbInit() {
 }
 
 async function firebaseInit() {
-  try {
-    const file = await fs.readFile(config.db.firebase.keyFilePath)
-    const firebaseKey = JSON.parse(file)
-    firebase.initializeApp({
-      credential: firebase.credential.cert(firebaseKey),
-      databaseURL: config.db.firebase.url,
-    })
-  } catch (err) {
-    throw err
-  }
+  await firebase.initializeApp({
+    credential: firebase.credential.cert({
+      privateKey: config.db.firebase.privateKey,
+      clientEmail: config.db.firebase.clientEmail,
+    }),
+    databaseURL: config.db.firebase.url,
+  })
 }
 
 module.exports = { init }

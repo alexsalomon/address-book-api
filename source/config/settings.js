@@ -33,8 +33,9 @@ const settings = {
       debug: process.env.DB_DEBUG || 'false',
     },
     firebase: {
-      keyFilePath: path.join(__dirname, './firebaseServiceAccountKey.json'),
       url: 'https://address-book-api.firebaseio.com',
+      privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/gu, '\n'),
+      clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
     },
   },
   auth: {
