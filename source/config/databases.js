@@ -18,7 +18,10 @@ function mongodbInit() {
   mongoose.set('useCreateIndex', true)
   mongoose.set('useNewUrlParser', true)
 
-  mongoose.connect(`mongodb://${config.db.mongo.host}:${config.db.mongo.port}/${config.db.mongo.name}`)
+  const host = config.db.mongo.host
+  const port = config.db.mongo.port
+  const dbName = config.db.mongo.name
+  mongoose.connect(`mongodb://${host}:${port}/${dbName}`)
   mongoose.connection.on('error', err => {
     if (err) {
       throw err
