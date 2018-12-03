@@ -4,11 +4,13 @@ const HttpStatus = require('http-status')
 const ApiError = require('http-errors')
 const express = require('express')
 const AuthRoutes = require('../api/auth/AuthRoutes')
+const ContactRoutes = require('../api/addressBook/ContactRoutes')
 const logger = require('../util/logger')
 
 const router = new express.Router()
 
 router.use('/', AuthRoutes)
+router.use('/contacts', ContactRoutes)
 
 router.all('*', (req, res, next) => {
   next(new ApiError.NotFound('Resource not found.'))

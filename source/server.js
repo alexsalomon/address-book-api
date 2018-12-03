@@ -5,15 +5,15 @@
 const express = require('express')
 const chalk = require('chalk')
 const config = require('./config/settings')
-const database = require('./config/database')
+const databases = require('./config/databases')
 const middlewares = require('./config/middlewares')
 const routes = require('./config/routes')
 
 // Start express app
 const app = express()
 
-// Initiate the database
-database.init()
+// Initiate the mongoDB database
+databases.init()
 
 // Wrap all the middlewares with the server
 middlewares(app)

@@ -28,10 +28,16 @@ const settings = {
     port: parseInt(process.env.PORT) || 8080,
   },
   db: {
-    host: process.env.DB_HOST || 'localhost',
-    port: parseInt(process.env.DB_PORT) || 27017,
-    name: process.env.DB_NAME || 'restful-api-prod',
-    debug: process.env.DB_DEBUG || 'false',
+    mongo: {
+      host: process.env.DB_HOST || 'localhost',
+      port: parseInt(process.env.DB_PORT) || 27017,
+      name: process.env.DB_NAME || 'restful-api-prod',
+      debug: process.env.DB_DEBUG || 'false',
+    },
+    firebase: {
+      keyFilePath: path.join(__dirname, './firebaseServiceAccountKey.json'),
+      url: 'https://address-book-api.firebaseio.com',
+    },
   },
   auth: {
     secret: process.env.JWT_SECRET || 'supersecret',
