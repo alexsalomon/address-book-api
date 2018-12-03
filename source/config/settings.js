@@ -34,7 +34,9 @@ const settings = {
     debug: process.env.DB_DEBUG || 'false',
   },
   auth: {
+    secret: process.env.JWT_SECRET || 'supersecret',
     saltRounds: parseInt(process.env.JWT_SALT_ROUNDS) || 10,
+    jwtExpiresIn: parseInt(process.env.JWT_EXPIRES_IN) || 3600,
     passwordMinLength: parseInt(process.env.PASSWORD_MIN_LENGTH) || 8,
   },
   logger: {
