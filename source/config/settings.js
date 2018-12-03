@@ -29,9 +29,7 @@ const settings = {
   },
   db: {
     mongo: {
-      host: process.env.DB_HOST || 'localhost',
-      port: parseInt(process.env.DB_PORT) || 27017,
-      name: process.env.DB_NAME || 'restful-api-prod',
+      url: process.env.MONGODB_URI || 'mongodb://localhost:27017/restful-api',
       debug: process.env.DB_DEBUG || 'false',
     },
     firebase: {
@@ -55,13 +53,13 @@ const settings = {
 }
 
 const devSettings = JSON.parse(JSON.stringify(settings))
-devSettings.db.name = process.env.DB_NAME || 'restful-api-dev'
-devSettings.db.debug = process.env.DB_DEBUG || 'true'
+devSettings.db.mongo.url = process.env.MONGODB_URI || 'mongodb://localhost:27017/restful-api-dev'
+devSettings.db.mongo.debug = process.env.DB_DEBUG || 'true'
 devSettings.logger.sentry = {}
 
 const testSettings = JSON.parse(JSON.stringify(settings))
-testSettings.db.name = process.env.DB_NAME || 'restful-api-test'
-testSettings.db.debug = process.env.DB_DEBUG || 'true'
+testSettings.db.mongo.url = process.env.MONGODB_URI || 'mongodb://localhost:27017/restful-api-test'
+testSettings.db.mongo.debug = process.env.DB_DEBUG || 'true'
 devSettings.logger.sentry = {}
 
 let config = {}
