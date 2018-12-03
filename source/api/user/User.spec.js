@@ -1,3 +1,4 @@
+/* eslint-env mocha */
 'use strict'
 
 const chai = require('chai')
@@ -11,15 +12,12 @@ let defaultUser
 
 describe('user : User', () => {
   beforeEach(() => {
-    defaultUser = {
-      ...factories.validUser(),
-    }
+    defaultUser = new User(factories.validUser())
   })
 
   describe('create()', () => {
     it('should create a user when email and password are valid', () => {
-      const user = new User(defaultUser)
-      const validation = user.validateSync()
+      const validation = defaultUser.validateSync()
       expect(validation).to.not.exist()
     })
 
@@ -31,9 +29,9 @@ describe('user : User', () => {
     })
 
     it('should require an unique email', () => {
-      new User(defaultUser).save(err => {
+      defaultUser.save(err => {
         expect(err).to.not.exist()
-        const user2 = new User(defaultUser)
+        const user2 = defaultUser
         const validation = user2.validateSync()
         expect(validation.errors.email.properties.type).to.equal('unique')
       })
@@ -41,21 +39,19 @@ describe('user : User', () => {
 
     it('should require a valid email', () => {
       defaultUser.email = 'notgoodemail'
-      const user = new User(defaultUser)
-      const validation = user.validateSync()
+      const validation = defaultUser.validateSync()
       expect(validation.errors.email).to.exist()
     })
 
     it('should require a valid password', () => {
       defaultUser.password = '2short'
-      const user = new User(defaultUser)
-      const validation = user.validateSync()
+      const validation = defaultUser.validateSync()
       expect(validation.errors.password).to.exist()
     })
 
     it('should not be storing password in plain text', () => {
       defaultUser.password = 'password'
-      new User(defaultUser).save((err, user) => {
+      defaultUser.save((err, user) => {
         expect(err).to.not.exist()
         expect(user.password).to.not.equal(defaultUser.password)
       })
@@ -65,7 +61,7 @@ describe('user : User', () => {
   describe('authentication', () => {
     it('should return true for valid password', () => {
       defaultUser.password = 'password'
-      new User(defaultUser).save((err, user) => {
+      defaultUser.save((err, user) => {
         expect(err).to.not.exist()
         expect(user.isPasswordValid(defaultUser.password)).to.equal(true)
       })
@@ -73,7 +69,7 @@ describe('user : User', () => {
 
     it('should return false for invalid password', () => {
       defaultUser.password = 'passwordmismatch'
-      new User(defaultUser).save((err, user) => {
+      defaultUser.save((err, user) => {
         expect(err).to.not.exist()
         expect(user.isPasswordValid(defaultUser.password)).to.equal(true)
       })
