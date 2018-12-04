@@ -34,7 +34,7 @@ const settings = {
     },
     firebase: {
       url: 'https://address-book-api.firebaseio.com',
-      privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/gu, '\n'),
+      privateKey: process.env.FIREBASE_PRIVATE_KEY,
       clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
     },
   },
@@ -51,6 +51,11 @@ const settings = {
       level: process.env.SENTRY_LEVEL || 'error',
     },
   },
+}
+
+// Replace literal '\n' found in Firebase's private key with the newline character
+if (settings.db.firebase.privateKey) {
+  settings.db.firebase.privateKey = settings.db.firebase.privateKey.replace(/\\n/gu, '\n')
 }
 
 const devSettings = JSON.parse(JSON.stringify(settings))
