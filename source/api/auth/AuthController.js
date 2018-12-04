@@ -6,20 +6,20 @@ const services = require('./AuthServices')
 
 /**
  * Register a user.
- * @param {string} email a string value that represents the user's email.
- * @param {string} password a string value that represents the user's password.
+ * @param {string} email The user's email.
+ * @param {string} password The user's password.
  * @returns {Object} The response object containing the jwt token.
  */
 async function register(email, password) {
   const user = await User.create({ email, password })
   const token = await services.createToken(user._id)
-  return { auth: true, token }
+  return { token }
 }
 
 /**
  * Logs a user in.
- * @param {string} email a string value that represents the user's email.
- * @param {string} password a string value that represents the user's password.
+ * @param {string} email The user's email.
+ * @param {string} password The user's password.
  * @returns {Object} The response object containing the jwt token.
  */
 async function login(email, password) {
@@ -31,7 +31,7 @@ async function login(email, password) {
   }
 
   const token = await services.createToken(user._id)
-  return { auth: true, token }
+  return { token }
 }
 
 module.exports = { register, login }

@@ -38,7 +38,6 @@ describe('auth : AuthController', () => {
       AuthController.register(user.email, user.password).then(res => {
         expect(User.create.called).to.be.true()
         expect(AuthServices.createToken.called).to.be.true()
-        expect(res.auth).to.be.true()
         expect(res.token).to.equal(expectedToken)
       })
     })
@@ -64,7 +63,6 @@ describe('auth : AuthController', () => {
       AuthServices.createToken.resolves(expectedToken)
 
       AuthController.login(defaultUser.email, defaultUser.password).then(res => {
-        expect(res.auth).to.be.true()
         expect(res.token).to.equal(expectedToken)
       })
     })

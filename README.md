@@ -1,6 +1,6 @@
 # address-book-api [![Build Status](https://travis-ci.com/alexsalomon/address-book-api.svg?branch=master)](https://travis-ci.com/alexsalomon/address-book-api)
 
-An address book backend API
+An address book API
 
 ## Commands
 Command             | Action                   |
@@ -26,6 +26,8 @@ $ sudo npm install -g nodemon
 
 ## Docker support
 
+Instead of downloading and setting up MongoDB locally, use docker for development by running the following commands:
+
 ```sh
 $ docker-compose build --force-rm   # Build the services and remove intermediate containers
 $ docker-compose up                 # Builds, (re)creates, starts, and attaches to containers for a service.
@@ -50,8 +52,16 @@ $ docker-compose up                 # Builds, (re)creates, starts, and attaches 
   # Push the code to heroku:
   git push heroku master
 ```
+> NOTE: You will also need to set the necessary environment variables (see `.env.example`) by running `heroku config:set KEY=VALUE`.
 
 For all subsequent deployments just do a push and heroku will automatically do the rest for you:
 ```
   git push heroku master
+```
+
+## Documentation
+* API documentation can be found under `/doc/index.html`
+* Regenarate the documentation by updating the API comments in the code and running:
+```sh
+  apidoc -f ".*\\.js$" -i source/ -o docs/
 ```

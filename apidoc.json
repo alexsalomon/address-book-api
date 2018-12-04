@@ -1,0 +1,9 @@
+{
+  "name": "address-book-api",
+  "version": "1.0.0",
+  "description": "An address book API",
+  "apidoc": {
+    "title": "Address Book API",
+    "url" : "https://as-address-book-api.herokuapp.com/"
+  }
+}

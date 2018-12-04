@@ -1,7 +1,7 @@
 {
   "name": "address-book-api",
   "version": "1.0.0",
-  "description": "An address book backend API",
+  "description": "An address book API",
   "main": "server.js",
   "engines": {
     "node": ">=10.0.0"
@@ -12,7 +12,7 @@
     "test": "npm run lint && npm run test-unit",
     "test-watch": "npm run test-unit -- --watch",
     "test-unit": "NODE_ENV=test mocha test/setup.spec.js source/**/*.spec.js  --exit",
-    "lint": "eslint . --fix"
+    "lint": "eslint source/** test/** --fix"
   },
   "repository": {
     "type": "git",
@@ -26,6 +26,7 @@
   "homepage": "https://github.com/alexsalomon/address-book-api#readme",
   "devDependencies": {
     "@strv/eslint-config-javascript": "^9.1.0",
+    "apidoc": "^0.17.7",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "dirty-chai": "^2.0.1",

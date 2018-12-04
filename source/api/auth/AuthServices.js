@@ -4,6 +4,13 @@ const ApiError = require('http-errors')
 const jwt = require('jsonwebtoken')
 const config = require('../../config/settings')
 
+/**
+ * Authentication token verification middleware.
+ * @param {Object} req The request object.
+ * @param {Object} res The response object.
+ * @param {function} next The next middleware to be executed.
+ * @returns {function} The next middleware to be executed.
+ */
 async function verifyToken(req, res, next) {
   try {
     const authHeader = req.headers.authorization
@@ -21,6 +28,11 @@ async function verifyToken(req, res, next) {
   }
 }
 
+/**
+ * Creates an authentication token.
+ * @param {string} userId The user's id
+ * @returns {string} The authentication token
+ */
 async function createToken(userId) {
   const token = await jwt.sign({ id: userId }, config.auth.secret, {
     expiresIn: config.auth.jwtExpiresIn,

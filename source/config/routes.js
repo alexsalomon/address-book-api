@@ -9,25 +9,27 @@ const logger = require('../util/logger')
 
 const router = new express.Router()
 
+// API Custom routes
 router.use('/', AuthRoutes)
 router.use('/contacts', ContactRoutes)
 
-router.all('*', (req, res, next) => {
-  next(new ApiError.NotFound('Resource not found.'))
-})
+// Handles all other routes with a 404 NotFoundError
+router.all('*', (req, res, next) => next(new ApiError.NotFound('Resource not found.')))
 
+// Logs any errors that made it this far
 router.use(function logErrors(err, req, res, next) {
   logger.error(err)
-  next(err)
+  return next(err)
 })
 
+// Handles errors by sending a json response with the error type and message
 router.use(function handleErrors(err, req, res, next) {
   res.status(err.status || HttpStatus.INTERNAL_SERVER_ERROR).json({
     type: err.type || err.name,
     message: err.message || HttpStatus['500_NAME'],
   })
 
-  next(err)
+  return next(err)
 })
 
 module.exports = router

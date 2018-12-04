@@ -4,7 +4,7 @@ const firebase = require('firebase-admin')
 
 /**
  * Saves a contact to the address book.
- * @param {string} userId a string value that represents the address book owner user's id.
+ * @param {string} userId The address book owner's user id.
  * @param {Object} contactInfo contact data such as first name, last name, email and phone number.
  * @returns {Object} The added firebase document reference
  */
