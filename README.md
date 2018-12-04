@@ -60,7 +60,7 @@ For all subsequent deployments just do a push and heroku will automatically do t
 ```
 
 ## Documentation
-* API documentation can be found under `/doc/index.html`
+* API documentation can be found under `/docs/index.html`
 * Regenarate the documentation by updating the API comments in the code and running:
 ```sh
   apidoc -f ".*\\.js$" -i source/ -o docs/
