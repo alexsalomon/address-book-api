@@ -1,8 +1,8 @@
 'use strict'
 
 const HttpStatus = require('http-status')
-const ApiError = require('http-errors')
 const express = require('express')
+const APIError = require('../util/errors')
 const AuthRoutes = require('../api/auth/AuthRoutes')
 const ContactRoutes = require('../api/addressBook/ContactRoutes')
 const logger = require('../util/logger')
@@ -14,21 +14,17 @@ router.use('/', AuthRoutes)
 router.use('/contacts', ContactRoutes)
 
 // Handles all other routes with a 404 NotFoundError
-router.all('*', (req, res, next) => next(new ApiError.NotFound('Resource not found.')))
+router.all('*', (req, res, next) => next(new APIError(HttpStatus.NOT_FOUND, 'Resource not found.')))
 
-// Logs any errors that made it this far
-router.use(function logErrors(err, req, res, next) {
-  logger.error(err)
-  return next(err)
-})
-
-// Handles errors by sending a json response with the error type and message
+// Returns json response for APIErrors and logs unexpected errors
+// returning a generic internal server error message otherwise
 router.use(function handleErrors(err, req, res, next) {
-  res.status(err.status || HttpStatus.INTERNAL_SERVER_ERROR).json({
-    type: err.type || err.name,
-    message: err.message || HttpStatus['500_NAME'],
-  })
+  if (err instanceof APIError) {
+    return res.status(err.status).json({ message: err.message })
+  }
 
+  logger.error(err)
+  res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ message: 'Internal Server Error' })
   return next(err)
 })
 

@@ -1,12 +1,14 @@
 /* eslint-env mocha */
 'use strict'
 
+const HttpStatus = require('http-status')
 const chai = require('chai')
 const dirtyChai = require('dirty-chai')
 const chaiAsPromised = require('chai-as-promised')
 const sinon = require('sinon')
 const jwt = require('jsonwebtoken')
 const factories = require('../../../test/factories')
+const APIError = require('../../util/errors')
 const AuthServices = require('./AuthServices')
 
 const expect = chai.expect
@@ -49,8 +51,8 @@ describe('auth : AuthServices', () => {
 
       const promise = AuthServices.verifyToken(request, '', passError)
       expect(promise).to.be.eventually.rejected()
-        .and.be.an.instanceOf(Error)
-        .and.have.property('name', 'UnauthorizedError')
+        .and.be.an.instanceOf(APIError)
+        .and.have.property('status', HttpStatus.UNAUTHORIZED)
     })
 
     it('should throw an error if request verification fails', () => {
@@ -58,8 +60,8 @@ describe('auth : AuthServices', () => {
 
       const promise = AuthServices.verifyToken(request, '', passError)
       expect(promise).to.be.eventually.rejected()
-        .and.be.an.instanceOf(Error)
-        .and.have.property('name', 'UnauthorizedError')
+        .and.be.an.instanceOf(APIError)
+        .and.have.property('status', HttpStatus.UNAUTHORIZED)
     })
   })
 

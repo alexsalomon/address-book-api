@@ -1,6 +1,7 @@
 'use strict'
 
-const ApiError = require('http-errors')
+const HttpStatus = require('http-status')
+const APIError = require('../../util/errors')
 const User = require('../user/User')
 const services = require('./AuthServices')
 
@@ -23,11 +24,20 @@ async function register(email, password) {
  * @returns {Object} The response object containing the jwt token.
  */
 async function login(email, password) {
+  if (typeof email === 'undefined') {
+    throw new APIError(HttpStatus.BAD_REQUEST, 'Email is required.')
+  } else if (typeof password === 'undefined') {
+    throw new APIError(HttpStatus.BAD_REQUEST, 'Password is required.')
+  }
+
   const user = await User.findOne({ email })
   if (!user) {
-    throw new ApiError.NotFound('User not found.')
-  } else if (!user.isPasswordValid(password)) {
-    throw new ApiError.Unauthorized('Invalid email and password combination.')
+    throw new APIError(HttpStatus.NOT_FOUND, 'User not found.')
+  }
+
+  const isPasswordValid = await user.isPasswordValid(password)
+  if (!isPasswordValid) {
+    throw new APIError(HttpStatus.UNAUTHORIZED, 'Invalid email and password combination.')
   }
 
   const token = await services.createToken(user._id)

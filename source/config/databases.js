@@ -2,11 +2,16 @@
 
 const mongoose = require('mongoose')
 const firebase = require('firebase-admin')
+const logger = require('../util/logger')
 const config = require('./settings')
 
-function init() {
-  mongodbInit()
-  firebaseInit()
+async function init() {
+  try {
+    await mongodbInit()
+    await firebaseInit()
+  } catch (err) {
+    logger.error(err)
+  }
 }
 
 function mongodbInit() {

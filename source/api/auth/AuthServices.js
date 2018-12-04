@@ -1,7 +1,8 @@
 'use strict'
 
-const ApiError = require('http-errors')
+const HttpStatus = require('http-status')
 const jwt = require('jsonwebtoken')
+const APIError = require('../../util/errors')
 const config = require('../../config/settings')
 
 /**
@@ -24,7 +25,7 @@ async function verifyToken(req, res, next) {
     }
     return next()
   } catch (error) {
-    return next(new ApiError.Unauthorized(error.message))
+    return next(new APIError(HttpStatus.UNAUTHORIZED, error.message))
   }
 }
 
