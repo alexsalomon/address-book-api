@@ -3,7 +3,7 @@
 const mongoose = require('mongoose')
 const firebase = require('firebase-admin')
 const logger = require('../services/logger')
-const config = require('../config/config')
+const config = require('../config')
 
 async function init() {
   try {

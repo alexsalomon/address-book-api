@@ -2,10 +2,6 @@
 
 const path = require('path')
 const convict = require('convict')
-const dotenv = require('dotenv')
-
-// Load variables from .env
-dotenv.config()
 
 const config = convict({
   env: {
@@ -107,19 +103,4 @@ const config = convict({
   },
 })
 
-const env = config.get('env')
-config.loadFile(path.join(__dirname, `./${env}.json`))
-
-// Replace literal '\n' found in Firebase's private key with the newline character
-const firebaseKey = config.get('db.firebase.privateKey')
-if (firebaseKey) {
-  config.set('db.firebase.privateKey', firebaseKey.replace(/\\n/gu, '\n'))
-}
-
-// Throws an error if config does not conform to schema
-config.validate({ allowed: 'strict' })
-
-// Abstract away convict and export settings as an object
-const settings = config.getProperties()
-
-module.exports = settings
+module.exports = config
