@@ -2,8 +2,8 @@
 
 const HttpStatus = require('http-status')
 const jwt = require('jsonwebtoken')
-const APIError = require('../../util/errors')
-const config = require('../../config/settings')
+const APIError = require('../../services/errors')
+const config = require('../../config/config')
 
 /**
  * Authentication token verification middleware.

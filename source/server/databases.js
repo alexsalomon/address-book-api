@@ -2,8 +2,8 @@
 
 const mongoose = require('mongoose')
 const firebase = require('firebase-admin')
-const logger = require('../util/logger')
-const config = require('./settings')
+const logger = require('../services/logger')
+const config = require('../config/config')
 
 async function init() {
   try {

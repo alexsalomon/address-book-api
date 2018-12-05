@@ -8,7 +8,7 @@ const chaiAsPromised = require('chai-as-promised')
 const sinon = require('sinon')
 const jwt = require('jsonwebtoken')
 const factories = require('../../../test/factories')
-const APIError = require('../../util/errors')
+const APIError = require('../../services/errors')
 const AuthServices = require('./AuthServices')
 
 const expect = chai.expect

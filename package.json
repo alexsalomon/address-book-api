@@ -7,8 +7,8 @@
     "node": ">=10.0.0"
   },
   "scripts": {
-    "start": "node ./source/server.js",
-    "dev": "NODE_ENV=development nodemon ./source/server.js",
+    "start": "node ./source/server/server.js",
+    "dev": "NODE_ENV=development nodemon ./source/server/server.js",
     "test": "npm run lint && npm run test-unit",
     "test-watch": "npm run test-unit -- --watch",
     "test-unit": "NODE_ENV=test mocha test/setup.spec.js source/**/*.spec.js  --exit",
@@ -41,6 +41,7 @@
     "body-parser": "^1.18.3",
     "chalk": "^2.4.1",
     "compression": "^1.7.3",
+    "convict": "^4.4.0",
     "cors": "^2.8.5",
     "dotenv": "^6.1.0",
     "express": "^4.16.4",

@@ -4,8 +4,8 @@ const HttpStatus = require('http-status')
 const mongoose = require('mongoose')
 const validator = require('validator')
 const bcrypt = require('bcryptjs')
-const APIError = require('../../util/errors')
-const config = require('../../config/settings')
+const APIError = require('../../services/errors')
+const config = require('../../config/config')
 
 const UserSchema = new mongoose.Schema({
   email: {

@@ -1,7 +1,7 @@
 'use strict'
 
 const HttpStatus = require('http-status')
-const APIError = require('../../util/errors')
+const APIError = require('../../services/errors')
 const User = require('../user/User')
 const services = require('./AuthServices')
 
