@@ -1,5 +1,7 @@
 'use strict'
 
+const path = require('path')
+const express = require('express')
 const compression = require('compression')
 const helmet = require('helmet')
 const bodyParser = require('body-parser')
@@ -9,6 +11,9 @@ const logger = require('../services/logger')
 const config = require('../config')
 
 module.exports = app => {
+  // Set static files to the 'docs' folder in order to render API documentation
+  app.use(express.static(path.join(__dirname, '../../docs')))
+
   app.use(compression())
   app.use(helmet())
   app.use(bodyParser.json())
