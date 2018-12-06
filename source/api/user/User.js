@@ -1,5 +1,3 @@
-'use strict'
-
 const HttpStatus = require('http-status')
 const mongoose = require('mongoose')
 const validator = require('validator')

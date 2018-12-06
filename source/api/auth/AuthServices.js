@@ -1,5 +1,3 @@
-'use strict'
-
 const HttpStatus = require('http-status')
 const jwt = require('jsonwebtoken')
 const APIError = require('../../services/errors')

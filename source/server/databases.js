@@ -1,5 +1,3 @@
-'use strict'
-
 const mongoose = require('mongoose')
 const firebase = require('firebase-admin')
 const logger = require('../services/logger')

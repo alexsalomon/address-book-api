@@ -1,5 +1,3 @@
-'use strict'
-
 const express = require('express')
 const routesUtil = require('../../util/routesUtil')
 const AuthServices = require('../auth/AuthServices')

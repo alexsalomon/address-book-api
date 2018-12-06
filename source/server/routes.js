@@ -1,5 +1,3 @@
-'use strict'
-
 const HttpStatus = require('http-status')
 const express = require('express')
 const APIError = require('../services/errors')

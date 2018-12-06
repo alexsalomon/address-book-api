@@ -1,5 +1,3 @@
-'use strict'
-
 function validUser() {
   return {
     email: 'test@gmail.com',

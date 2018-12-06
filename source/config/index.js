@@ -1,5 +1,3 @@
-'use strict'
-
 const path = require('path')
 const dotenv = require('dotenv')
 const config = require('./config')

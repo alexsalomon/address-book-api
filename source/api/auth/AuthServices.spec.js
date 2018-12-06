@@ -1,5 +1,4 @@
 /* eslint-env mocha */
-'use strict'
 
 const HttpStatus = require('http-status')
 const chai = require('chai')

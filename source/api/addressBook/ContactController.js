@@ -1,5 +1,3 @@
-'use strict'
-
 const HttpStatus = require('http-status')
 const firebase = require('firebase-admin')
 const APIError = require('../../services/errors')
