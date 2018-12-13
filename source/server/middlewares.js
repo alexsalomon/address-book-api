@@ -2,8 +2,9 @@ const path = require('path')
 const express = require('express')
 const compression = require('compression')
 const helmet = require('helmet')
-const bodyParser = require('body-parser')
 const cors = require('cors')
+const methodOverride = require('method-override')
+const bodyParser = require('body-parser')
 const morgan = require('morgan')
 const logger = require('../services/logger')
 const config = require('../config')
@@ -12,16 +13,19 @@ module.exports = app => {
   // Set static files to the 'docs' folder in order to render API documentation
   app.use(express.static(path.join(__dirname, '../../docs')))
 
-  // Performance tweak
+  // Performance tweak: GZIP compression
   app.use(compression())
 
-  // Added security
+  // Improves security by setting many HTTP headers
   app.use(helmet())
 
-  // Enable CORS
+  // Enable CORS - Cross Origin Resource Sharing
   app.use(cors())
 
-  // Parse JSON and urlenconded responses
+  // Lets you use HTTP verbs such as PUT or DELETE in places where the client doesn't support it
+  app.use(methodOverride())
+
+  // Parse body params and attach them to req.body
   app.use(bodyParser.json())
   app.use(bodyParser.urlencoded({ extended: true }))
 
