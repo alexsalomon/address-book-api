@@ -1,6 +1,6 @@
 const HttpStatus = require('http-status')
 const jwt = require('jsonwebtoken')
-const APIError = require('../../services/errors')
+const APIError = require('../../services/errors/apiError')
 const config = require('../../config')
 
 /**

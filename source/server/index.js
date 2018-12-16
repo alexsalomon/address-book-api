@@ -1,34 +1,52 @@
-/* eslint-disable no-console */
-
 const express = require('express')
-const chalk = require('chalk')
+const errorHandler = require('../services/errors/errorHandler')
+const logger = require('../services/logger')
 const config = require('../config')
 const databases = require('./databases')
 const middlewares = require('./middlewares')
 const routes = require('./routes')
 
-// Start express app
-const app = express()
+// Catch unhandled promise rejections and forward them to uncaughtException (see below)
+process.on('unhandledRejection', reason => {
+  logger.warn('Reached unhandledRejection.')
+  throw reason
+})
 
-// Initiate the mongoDB database
-databases.init()
+// Handle exceptions not caught by express -- avoid ever reaching this function
+process.on('uncaughtException', err => {
+  logger.warn('Reached uncaughtException.')
+  logger.error(err)
+  process.exit(1) /* eslint-disable-line no-process-exit */
+})
 
-// Wrap all the middlewares with the server
-middlewares(app)
+async function run(app) {
+  // Initialize databases
+  await databases()
 
-// Add the API routes stack to the server
-app.use('/', routes)
+  // Use middlewares
+  middlewares(app)
 
-// Start the server ; We need this first check to make sure we don't run a second instance
-if (!module.parent) {
-  app.listen(config.app.port, err => {
-    if (err) {
-      console.log(chalk.red('Error trying to run the server.'))
-      throw err
-    } else {
-      console.log(chalk.green.bold(`Server is listening on ${config.app.port}...\n`))
-    }
-  })
+  // Add the API routes stack to the server
+  app.use('/', routes)
+
+  // Override express default error handler
+  app.use((err, req, res, next) => errorHandler.handleError(err, req, res, next))
+
+  // Start the server ; We need this first check to make sure we don't run a second instance
+  if (!module.parent) {
+    app.listen(config.app.port, err => {
+      if (err) {
+        logger.error('Error trying to run the server.')
+        throw err
+      } else {
+        logger.info(`Server is listening on ${config.app.port}...`)
+      }
+    })
+  }
 }
+
+// Start server
+const app = express()
+run(app).catch(err => errorHandler.handleError(err))
 
 module.exports = app

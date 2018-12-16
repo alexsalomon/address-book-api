@@ -18,7 +18,7 @@ const config = convict({
   },
   db: {
     mongo: {
-      url: {
+      uri: {
         format: String,
         default: 'mongodb://localhost:27017/restful-api-dev',
         arg: 'mongoDbUri',

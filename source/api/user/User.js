@@ -2,7 +2,7 @@ const HttpStatus = require('http-status')
 const mongoose = require('mongoose')
 const validator = require('validator')
 const bcrypt = require('bcryptjs')
-const APIError = require('../../services/errors')
+const APIError = require('../../services/errors/apiError')
 const config = require('../../config')
 
 const UserSchema = new mongoose.Schema({

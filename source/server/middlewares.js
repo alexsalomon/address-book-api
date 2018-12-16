@@ -38,7 +38,9 @@ module.exports = app => {
         return res.statusCode < 500
       },
       stream: {
-        write: message => { logger.error(message.trim()) },
+        write: message => {
+          logger.error(message.trim())
+        },
       },
     }))
   }

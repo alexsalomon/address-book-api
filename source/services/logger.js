@@ -1,3 +1,4 @@
+/* eslint-disable no-sync */
 
 const fse = require('fs-extra')
 const winston = require('winston')
@@ -7,78 +8,84 @@ const config = require('../config')
 const errorLogFile = `${config.logger.logsPath}error.log`
 const combinedLogFile = `${config.logger.logsPath}combined.log`
 
-async function initialize() {
-  await createLogFiles()
+module.exports = (() => {
+  createLogFiles()
   const loggerOptions = getLoggerOptions(config.env)
   return winston.createLogger(loggerOptions)
-}
+})()
 
-async function createLogFiles() {
-  try {
-    await fse.ensureFile(errorLogFile)
-    await fse.ensureFile(combinedLogFile)
-  } catch (err) {
-    throw err
-  }
+function createLogFiles() {
+  fse.ensureFileSync(errorLogFile)
+  fse.ensureFileSync(combinedLogFile)
 }
 
 function getLoggerOptions(env) {
-  let loggerOptions = {}
-
-  switch (env) {
-    case 'dev':
-    case 'test':
-      loggerOptions = {
-        transports: [
-          new winston.transports.Console({
-            format: winston.format.simple(),
-            level: 'debug',
-            handleExceptions: true,
-            colorize: true,
-            timestamp: true,
-          }),
-        ],
-      }
-      break
-    case 'prod':
-    default:
-      loggerOptions = {
-        transports: [
-          new winston.transports.File({
-            format: winston.format.json(),
-            filename: errorLogFile,
-            level: 'error',
-            handleExceptions: true,
-            maxsize: 5242880, // 5MB
-            maxFiles: 5,
-            colorize: false,
-            timestamp: true,
-          }),
-          new winston.transports.File({
-            format: winston.format.json(),
-            level: 'info',
-            filename: combinedLogFile,
-            handleExceptions: true,
-            maxsize: 5242880, // 5MB
-            maxFiles: 5,
-            colorize: false,
-            timestamp: true,
-          }),
-          new Sentry({
-            dsn: config.logger.sentry.dns,
-            level: config.logger.sentry.level,
-            install: true,
-            config: {
-              captureUnhandledRejections: true,
-            },
-          }),
-        ],
-      }
-      break
+  const loggerOptions = {
+    // Stop winston from exiting after logging an uncaughtException
+    exitOnError: false,
   }
-
+  loggerOptions.transports = getLoggerTransports(env)
   return loggerOptions
 }
 
+function getLoggerTransports(env) {
+  let transports = []
+  switch (env) {
+    case 'dev':
+    case 'test':
+      transports = getLoggerTransportsDev()
+      break
+    case 'stag':
+      transports = getLoggerTransportsStag()
+      break
+    case 'prod':
+    default:
+      transports = getLoggerTransportsProd()
+      break
+  }
+  return transports
+}
 
-module.exports = initialize()
+function getLoggerTransportsDev() {
+  return [
+    new winston.transports.Console({
+      format: winston.format.combine(
+        winston.format.colorize({ level: true }),
+        winston.format.simple(),
+      ),
+      level: 'debug',
+    }),
+  ]
+}
+
+function getLoggerTransportsStag() {
+  return [
+    new winston.transports.File({
+      format: winston.format.combine(
+        winston.format.timestamp(),
+        winston.format.json(),
+      ),
+      filename: errorLogFile,
+      level: 'error',
+      maxsize: 5242880, // 5MB
+      maxFiles: 5,
+    }),
+    new winston.transports.File({
+      format: winston.format.combine(
+        winston.format.timestamp(),
+        winston.format.json(),
+      ),
+      level: 'info',
+      filename: combinedLogFile,
+      maxsize: 5242880, // 5MB
+      maxFiles: 5,
+    }),
+  ]
+}
+
+function getLoggerTransportsProd() {
+  return [...getLoggerTransportsStag, new Sentry({
+    dsn: config.logger.sentry.dns,
+    level: config.logger.sentry.level,
+  })]
+}

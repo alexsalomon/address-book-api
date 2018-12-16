@@ -1,6 +1,6 @@
 const HttpStatus = require('http-status')
 const firebase = require('firebase-admin')
-const APIError = require('../../services/errors')
+const APIError = require('../../services/errors/apiError')
 
 /**
  * Saves a contact to the address book.
