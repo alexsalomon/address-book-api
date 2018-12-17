@@ -1,7 +1,7 @@
 const express = require('express')
 const routesUtil = require('../../util/routesUtil')
-const AuthServices = require('../auth/AuthServices')
-const ContactsController = require('./ContactController')
+const AuthServices = require('../auth/auth.services')
+const ContactsController = require('./contact.controller')
 
 const router = new express.Router()
 

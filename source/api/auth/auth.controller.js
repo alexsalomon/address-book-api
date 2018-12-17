@@ -1,7 +1,7 @@
 const HttpStatus = require('http-status')
 const APIError = require('../../services/errors/apiError')
-const User = require('../user/User')
-const services = require('./AuthServices')
+const User = require('../user/user')
+const services = require('./auth.services')
 
 /**
  * Register a user.

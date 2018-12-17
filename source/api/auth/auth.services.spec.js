@@ -8,7 +8,7 @@ const sinon = require('sinon')
 const jwt = require('jsonwebtoken')
 const factories = require('../../../test/factories')
 const APIError = require('../../services/errors/apiError')
-const AuthServices = require('./AuthServices')
+const AuthServices = require('./auth.services')
 
 const expect = chai.expect
 chai.use(dirtyChai)

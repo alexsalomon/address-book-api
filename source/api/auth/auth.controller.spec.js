@@ -4,9 +4,9 @@ const chai = require('chai')
 const dirtyChai = require('dirty-chai')
 const sinon = require('sinon')
 const factories = require('../../../test/factories')
-const User = require('../user/User')
-const AuthController = require('./AuthController')
-const AuthServices = require('./AuthServices')
+const User = require('../user/user')
+const AuthController = require('./auth.controller')
+const AuthServices = require('./auth.services')
 
 const expect = chai.expect
 chai.use(dirtyChai)

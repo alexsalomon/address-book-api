@@ -1,8 +1,8 @@
 const HttpStatus = require('http-status')
 const express = require('express')
 const APIError = require('../services/errors/apiError')
-const AuthRoutes = require('../api/auth/AuthRoutes')
-const ContactRoutes = require('../api/addressBook/ContactRoutes')
+const AuthRoutes = require('../api/auth/auth.routes')
+const ContactRoutes = require('../api/addressBook/contact.routes')
 
 const router = new express.Router()
 
