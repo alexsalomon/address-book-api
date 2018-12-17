@@ -9,7 +9,7 @@ class ErrorHandler {
 
   handleOperationalError(err, req, res, next) {
     if (err.isOperational) {
-      logger.warn(err)
+      logger.warn(err.message, err)
       if (typeof res !== 'undefined') {
         const errorStatus = err.status || HttpStatus.INTERNAL_SERVER_ERROR
         const errorMessage = err.message || 'Internal Server Error'
@@ -20,8 +20,7 @@ class ErrorHandler {
 
   handleProgrammerError(err) {
     if (!err.isOperational) {
-      logger.debug('Reached programmer error handler.')
-      logger.error(err)
+      logger.error(err.message, err)
       // Programmer errors leave the application in an unknown state
       process.exit(1) /* eslint-disable-line no-process-exit */
     }

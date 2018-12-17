@@ -15,7 +15,7 @@ process.on('unhandledRejection', reason => {
 // Handle exceptions not caught by express -- avoid ever reaching this function
 process.on('uncaughtException', err => {
   logger.warn('Reached uncaughtException.')
-  logger.error(err)
+  logger.error(err.message, err)
   process.exit(1) /* eslint-disable-line no-process-exit */
 })
 
@@ -34,13 +34,8 @@ async function run(app) {
 
   // Start the server ; We need this first check to make sure we don't run a second instance
   if (!module.parent) {
-    app.listen(config.app.port, err => {
-      if (err) {
-        logger.error('Error trying to run the server.')
-        throw err
-      } else {
-        logger.info(`Server is listening on ${config.app.port}...`)
-      }
+    app.listen(config.app.port, () => {
+      logger.info(`Server is listening on ${config.app.port}...`)
     })
   }
 }
