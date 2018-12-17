@@ -10,6 +10,7 @@ Command             | Action                   |
 `npm test`          | Run the tests once       |
 `npm test-watch`    | Run and watch the tests  |
 `npm run lint`      | Lint the code            |
+`npm run docs`      | Update API documentation |
 
 ## Set up
 * Install GIT, NodeJS 10+, NPM and MongoDB (or Docker).
@@ -63,5 +64,5 @@ For all subsequent deployments just do a push and heroku will automatically do t
 * API documentation can be found under `/docs/index.html`
 * Regenarate the documentation by updating the API comments in the code and running:
 ```sh
-  apidoc -f ".*\\.js$" -i source/ -o docs/
+  npm run docs
 ```
