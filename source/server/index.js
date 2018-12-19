@@ -1,5 +1,5 @@
 const express = require('express')
-const errorHandler = require('../services/errors/errorHandler')
+const errorHandler = require('../services/errorHandler')
 const logger = require('../services/logger')
 const config = require('../config')
 const databases = require('./databases')

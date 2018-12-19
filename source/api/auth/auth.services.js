@@ -1,6 +1,6 @@
 const HttpStatus = require('http-status')
 const jwt = require('jsonwebtoken')
-const APIError = require('../../services/errors/apiError')
+const APIError = require('../../services/errors/api.error')
 const config = require('../../config')
 
 /**
@@ -10,20 +10,14 @@ const config = require('../../config')
  * @param {function} next The next middleware to be executed.
  * @returns {function} The next middleware to be executed.
  */
-async function verifyToken(req, res, next) {
+async function authenticate(req, res, next) {
   try {
-    const authHeader = req.headers.authorization
-    if (typeof authHeader !== 'undefined') {
-      const bearer = authHeader.split(' ')
-      const token = bearer[1]
-      const decoded = await jwt.verify(token, config.auth.secret)
-      req.userId = decoded.id
-    } else {
-      throw new Error('No authorization token provided.')
-    }
+    const token = req.headers.authorization.split(' ')[1]
+    const { userId } = await jwt.verify(token, config.auth.secret)
+    req.userId = userId
     return next()
   } catch (error) {
-    return next(new APIError(HttpStatus.UNAUTHORIZED, error.message))
+    return next(new APIError({ status: HttpStatus.UNAUTHORIZED, message: error.message }))
   }
 }
 
@@ -33,10 +27,10 @@ async function verifyToken(req, res, next) {
  * @returns {string} The authentication token
  */
 async function createToken(userId) {
-  const token = await jwt.sign({ id: userId }, config.auth.secret, {
+  const token = await jwt.sign({ userId }, config.auth.secret, {
     expiresIn: config.auth.jwtExpiresIn,
   })
   return token
 }
 
-module.exports = { verifyToken, createToken }
+module.exports = { authenticate, createToken }

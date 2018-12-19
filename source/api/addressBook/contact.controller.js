@@ -1,6 +1,4 @@
-const HttpStatus = require('http-status')
 const firebase = require('firebase-admin')
-const APIError = require('../../services/errors/apiError')
 
 /**
  * Saves a contact to the address book.
@@ -9,22 +7,9 @@ const APIError = require('../../services/errors/apiError')
  * @returns {Object} The added firebase document reference
  */
 async function addContact(userId, contactInfo) {
-  validate(contactInfo)
   const database = firebase.database()
   const ref = await database.ref(`/contacts/${userId}`).push(contactInfo)
   return { ref }
-}
-
-function validate(contactInfo) {
-  if (typeof contactInfo.firstName === 'undefined'
-    || typeof contactInfo.lastName === 'undefined'
-    || typeof contactInfo.email === 'undefined'
-    || typeof contactInfo.phoneNumber === 'undefined') {
-    throw new APIError(
-      HttpStatus.BAD_REQUEST,
-      "'firstName', 'lastName', 'email' and 'phoneNumber' are required fields.",
-    )
-  }
 }
 
 module.exports = { addContact }

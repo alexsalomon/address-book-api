@@ -1,6 +1,8 @@
 const express = require('express')
-const routesUtil = require('../../util/routesUtil')
+const validate = require('express-validation')
+const routesUtil = require('../../util/routes.util')
 const AuthController = require('./auth.controller')
+const AuthValidation = require('./auth.validation')
 
 const router = new express.Router()
 
@@ -35,10 +37,14 @@ const router = new express.Router()
  *       "error": "Error message"
  *     }
  */
-router.post('/register', routesUtil.controllerHandler(
-  AuthController.register,
-  req => [req.body.email, req.body.password],
-))
+router.post(
+  '/register',
+  validate(AuthValidation.register),
+  routesUtil.controllerHandler(
+    AuthController.register,
+    req => [req.body.email, req.body.password],
+  ),
+)
 
 /**
  * @api {post} /login Log a User In
@@ -71,9 +77,13 @@ router.post('/register', routesUtil.controllerHandler(
  *       "error": "Error message"
  *     }
  */
-router.post('/login', routesUtil.controllerHandler(
-  AuthController.login,
-  req => [req.body.email, req.body.password],
-))
+router.post(
+  '/login',
+  validate(AuthValidation.login),
+  routesUtil.controllerHandler(
+    AuthController.login,
+    req => [req.body.email, req.body.password],
+  ),
+)
 
 module.exports = router

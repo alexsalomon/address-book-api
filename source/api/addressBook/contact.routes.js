@@ -1,12 +1,14 @@
 const express = require('express')
-const routesUtil = require('../../util/routesUtil')
+const validate = require('express-validation')
+const routesUtil = require('../../util/routes.util')
 const AuthServices = require('../auth/auth.services')
 const ContactsController = require('./contact.controller')
+const ContactValidation = require('./contact.validation')
 
 const router = new express.Router()
 
 // Authorization middleware
-const verifyToken = AuthServices.verifyToken
+const authenticate = AuthServices.authenticate
 
 /**
  * @api {post} /contacts Add a Contact to the Address Book
@@ -41,14 +43,14 @@ const verifyToken = AuthServices.verifyToken
  *       "error": "Error message"
  *     }
  */
-router.post('/', verifyToken, routesUtil.controllerHandler(
-  ContactsController.addContact,
-  req => [req.userId, {
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    email: req.body.email,
-    phoneNumber: req.body.phoneNumber,
-  }],
-))
+router.post(
+  '/',
+  validate(ContactValidation.addContact),
+  authenticate,
+  routesUtil.controllerHandler(
+    ContactsController.addContact,
+    req => [req.userId, req.body],
+  ),
+)
 
 module.exports = router

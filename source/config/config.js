@@ -70,10 +70,17 @@ const config = convict({
       args: 'jwtExpiresIn',
       env: 'JWT_EXPIRES_IN',
     },
-    passwordMinLength: {
-      format: 'nat',
-      default: 8,
-      env: 'PASSWORD_MIN_LENGTH',
+    password: {
+      minLength: {
+        format: 'nat',
+        default: 8,
+        env: 'PASSWORD_MIN_LENGTH',
+      },
+      maxLength: {
+        format: 'nat',
+        default: 128,
+        env: 'PASSWORD_MAX_LENGTH',
+      },
     },
   },
   logger: {
